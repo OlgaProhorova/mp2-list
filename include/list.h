@@ -10,18 +10,30 @@ struct Node
 {
   DataType data;
   Node* next;
-  // здесь могут быть конструкторы, методы, деструктор Node
+  Node(){};
+  Node(DataType a,Node* n)
+  {data=a; next=n;};
+  ~Node();// здесь могут быть конструкторы, методы, деструктор Node
 };
 
 class List
 {
-  // любые поля
+  Node* head;// любые поля
 public:
-  List() {};
+  List() {head=new Node(0,NULL);};
   List(const List& list2);
   List& operator=(const List& list2);
-  ~List() {};
-
+  ~List() 
+  {
+	  Node *tmp=head,*n;
+	  while(tmp->next!=NULL)
+	  {
+		  n=tmp->next->next;
+		  delete tmp->next;
+		  tmp->next=n;
+	  }
+	  delete tmp;
+  };
   void InserToHead(const DataType& d); // вставить элемент d первым
   void InserToTail(const DataType& d); // вставить элемент d последним
   void InsertAfter(Node* node, const DataType& d); // вставить элемент d после звена node
