@@ -13,13 +13,13 @@ List& List::operator=(const List& list2)
 	return *this;
 };
 
-void List::InserToHead(const DataType& d)
+void List::InsertToHead(const DataType& d)
 {
 	Node *n=new Node(d,head);
 	head=n;
 };
 
-void List::InserToTail(const DataType& d)
+void List::InsertToTail(const DataType& d)
 {
 	Node *tmp;
 	tmp=head;
@@ -132,3 +132,18 @@ List List::Merge(const List& list2)
 	tmp->next=list2.head;
 	return newlist;
 }; 
+
+bool List::operator ==(const List & list2) const
+{
+	Node *tmp1,*tmp2;
+	tmp1=head;
+	tmp2=head;
+	while((tmp1->next!=NULL)&&(tmp2->next!=NULL))
+	{
+		if(tmp1!=tmp2)return false;
+		tmp1=tmp1->next;
+		tmp2=tmp2->next;
+	}
+	if(((tmp1->next!=NULL)&&(tmp2->next==NULL))||((tmp1->next==NULL)&&(tmp2->next!=NULL)))return false;
+	return true;
+}
