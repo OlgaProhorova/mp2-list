@@ -10,29 +10,52 @@ struct Node
 {
   DataType data;
   Node* next;
-  Node(){};
-  Node(DataType a,Node* n)
-  {data=a; next=n;};
-  ~Node();// здесь могут быть конструкторы, методы, деструктор Node
+public:
+  Node(DataType a=0,Node* n=NULL)
+  {
+	  data=a; 
+	  next=n;
+  };
+  ~Node(){};// здесь могут быть конструкторы, методы, деструктор Node
+  Node& operator=(const Node& node2)
+  {
+	   if(this!=&node2)
+	   {
+		   data = node2.data;
+		   next = node2.next;
+	   }
+	   return *this;
+  };
+  bool operator==(const Node& node2) const
+  {
+	   if (data != node2.data) return false;
+	   else return true;
+  };
 };
 
 class List
 {
   Node* head;// любые поля
 public:
-  List() {head=new Node(0,NULL);};
+  List() 
+  {
+	  head=NULL;
+  };
   List(const List& list2);
   List& operator=(const List& list2);
   ~List() 
   {
 	  Node *tmp=head,*n;
-	  while(tmp->next!=NULL)
+	  if(head!=0)
 	  {
+		while(tmp->next!=NULL)
+		{
 		  n=tmp->next->next;
 		  delete tmp->next;
 		  tmp->next=n;
+		}
+		delete tmp;
 	  }
-	  delete tmp;
   };
   void InsertToHead(const DataType& d); // вставить элемент d первым
   void InsertToTail(const DataType& d); // вставить элемент d последним
